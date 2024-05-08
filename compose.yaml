@@ -1,10 +1,19 @@
 services:
   server:
-    build:
-      context: .
+    build: .
+    command: node bot.js
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /src
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     environment:
       NODE_ENV: production
-      TOKEN: "MTIzNzY1OTIxODA5ODc4NjMzNA.G9Gtqx.ukOxi78YIhY7zfWp6r4ofmHyoORDiFoI6ZFxwM"
-      PREFIX: "!"
+      TOKEN: 'MTIzNzY1OTIxODA5ODc4NjMzNA.G9Gtqx.ukOxi78YIhY7zfWp6r4ofmHyoORDiFoI6ZFxwM'
+      PREFIX: '!'
     ports:
       - 6000:6000
