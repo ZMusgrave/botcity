@@ -13,7 +13,7 @@ services:
           path: package.json
     environment:
       NODE_ENV: production
-      TOKEN: 'MTIzNzY1OTIxODA5ODc4NjMzNA.G9Gtqx.ukOxi78YIhY7zfWp6r4ofmHyoORDiFoI6ZFxwM'
-      PREFIX: '!'
+      TOKEN: placeholder
+      PREFIX: placeholder
     ports:
       - 6000:6000
