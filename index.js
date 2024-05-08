@@ -1,6 +1,6 @@
-const Discord = require("discord.js");
-const ytdl = require("ytdl-core");
-require("dotenv").config();
+const Discord = require('discord.js');
+const ytdl = require('ytdl-core');
+require('dotenv').config();
 
 const client = new Discord.Client();
 
@@ -9,29 +9,29 @@ const queue = new Map();
 const prefix = process.env.PREFIX;
 const token = process.env.TOKEN;
 
-client.once("ready", () => {
-  console.log("Ready!");
+client.once('ready', () => {
+  console.log('Ready!');
 });
 
-client.once("Reconnecting", () => {
-  console.log("Reconnecting!");
+client.once('Reconnecting', () => {
+  console.log('Reconnecting!');
 });
 
-client.once("disconnect", () => {
-  console.log("Disconnect");
+client.once('disconnect', () => {
+  console.log('Disconnect');
 });
 
-client.on("message", async (message) => {
+client.on('message', async (message) => {
   //syntax for checking if message author is a bot return the message since the bot sent it
   if (message.author.bot) {
-    console.log("Im the bot");
+    console.log('Im the bot');
     return;
   }
   //check for ensuring the begging of the message starts with the prefix from the config.json
   if (!message.content.startsWith(prefix)) {
-    console.log("Message Con", message);
+    console.log('Message Con', message);
 
-    console.log("im a message without a prefix");
+    console.log('im a message without a prefix');
     return;
   }
 
@@ -51,27 +51,25 @@ client.on("message", async (message) => {
       return;
 
     default:
-      message.channel.send("Invalid Command - not recognized");
+      message.channel.send('Invalid Command - not recognized');
   }
 });
 
 async function execute(message, serverQueue) {
-  const args = message.content.split(" ");
+  const args = message.content.split(' ');
 
   console.log(args);
   const voiceChannel = message.member.voice.channel;
 
   if (!voiceChannel) {
-    return message.channel.send(
-      "You need to be in a voice channel to play music"
-    );
+    return message.channel.send('You need to be in a voice channel to play music');
   }
 
   const permissions = voiceChannel.permissionsFor(message.client.user);
 
-  if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+  if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
     return message.channel.send(
-      "I need permissions to join and speak in your voice channel"
+      'I need permissions to join and speak in your voice channel'
     );
   }
 
@@ -124,11 +122,11 @@ function play(guild, song) {
 
   const dispatcher = serverQueue.connection
     .play(ytdl(song.url))
-    .on("finish", () => {
+    .on('finish', () => {
       serverQueue.songs.shift();
       play(guild, serverQueue.songs[0]);
     })
-    .on("error", (error) => console.error(error));
+    .on('error', (error) => console.error(error));
 
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
   serverQueue.textChannel.send(`Start Playing: ** ${song.title}`);
@@ -136,13 +134,11 @@ function play(guild, song) {
 
 function skip(message, serverQueue) {
   if (!message.member.voice.channel) {
-    return message.channel.send(
-      " You have to be in a voice channel to stop the music"
-    );
+    return message.channel.send(' You have to be in a voice channel to stop the music');
   }
 
   if (!serverQueue) {
-    return message.channel.send("THERE IS NO SONG THAT I COULD SKIP YOU FOOL");
+    return message.channel.send('THERE IS NO SONG THAT I COULD SKIP YOU FOOL');
   }
 
   serverQueue.connection.dispatcher.end();
@@ -150,9 +146,7 @@ function skip(message, serverQueue) {
 
 function stop(message, serverQueue) {
   if (!message.member.voice.channel) {
-    return message.channel.send(
-      "You have to be in a voice channel to do that silly"
-    );
+    return message.channel.send('You have to be in a voice channel to do that silly');
   }
 
   serverQueue.songs = [];
