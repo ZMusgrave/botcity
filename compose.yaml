@@ -1,0 +1,10 @@
+services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      TOKEN: "MTIzNzY1OTIxODA5ODc4NjMzNA.G9Gtqx.ukOxi78YIhY7zfWp6r4ofmHyoORDiFoI6ZFxwM"
+      PREFIX: "!"
+    ports:
+      - 6000:6000
