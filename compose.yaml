@@ -13,7 +13,7 @@ services:
           path: package.json
     environment:
       NODE_ENV: production
-      TOKEN: placeholder
-      PREFIX: placeholder
+      TOKEN: ${TOKEN}
+      PREFIX: ${PREFIX}
     ports:
       - 6000:6000
