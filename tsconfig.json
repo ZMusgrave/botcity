@@ -7,5 +7,5 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "files": ["src/bot.ts"]
+  "include": ["src", "commands"]
 }
