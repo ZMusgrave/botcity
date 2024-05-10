@@ -23,8 +23,6 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 RUN adduser --disabled-password --shell /bin/sh -u 1001 app
 USER app
 
-ARG TOKEN
-ARG PREFIX
 
 # Copy the rest of the source files into the image.
 COPY . .
