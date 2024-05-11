@@ -1,13 +1,14 @@
-# syntax=docker/dockerfile:1
+###
 
+###
+# syntax=docker/dockerfile:1
 ARG NODE_VERSION=20.11.1
 
-FROM node:${NODE_VERSION}-alpine
+#Build Stage - Using to generate the ts compiled files
 
-# Use production node environment by default.
-ENV NODE_ENV production
+FROM node:${NODE_VERSION}-alpine  as build
 
-
+# Set the working directory so we can use relative paths
 WORKDIR /usr/src/app
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
@@ -17,20 +18,35 @@ WORKDIR /usr/src/app
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-
-# Run the application as a privleged user so we can write to files in the container during development.
-RUN adduser --disabled-password --shell /bin/sh -u 1001 app
-USER app
-
+    npm ci
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+RUN npm run build
+
+FROM node:${NODE_VERSION}-alpine
+
+WORKDIR /usr/src/app
+
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=package-lock.json,target=package-lock.json \
+    --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev
+
+COPY --from=build /usr/src/app/dist ./dist
+
+# create privleged user to allow us to write changes to the application during develompment
+RUN adduser --disabled-password --shell /bin/sh -u 1001 app
+USER app
 
 COPY --chown=app:app . /app
 
 # Expose the port that the application listens on.
 EXPOSE 6000
 
+# Use production node environment by default.
+ENV NODE_ENV production
+
 # Run the application.
-CMD node bot.js
+CMD node dist/src/bot.js
