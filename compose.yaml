@@ -1,7 +1,6 @@
 services:
-  server:
+  bot:
     build: .
-    command: node bot.js
     develop:
       watch:
         - action: sync
