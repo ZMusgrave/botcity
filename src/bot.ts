@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { ClientWithCommands } from '../types/client';
 import path from 'node:path';
-// import { fileURLToPath } from 'url';
 
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
@@ -14,10 +13,6 @@ export default async function Bot() {
   }) as ClientWithCommands;
 
   client.commands = new Collection();
-
-  // const __filename = fileURLToPath(import.meta.url);
-
-  // const __dirname = path.dirname(__filename);
 
   const foldersPath = path.join(__dirname, 'commands');
   const commandFolders = fs.readdirSync(foldersPath);
