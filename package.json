@@ -2,7 +2,8 @@
   "name": "botcity",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": ".",
+  "type": "module",
   "scripts": {
     "dev": "docker compose --env-file .env up --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
