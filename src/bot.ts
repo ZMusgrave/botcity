@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { ClientWithCommands } from '../types/client';
 import path from 'node:path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
@@ -15,9 +15,9 @@ export default async function Bot() {
 
   client.commands = new Collection();
 
-  const __filename = fileURLToPath(import.meta.url);
+  // const __filename = fileURLToPath(import.meta.url);
 
-  const __dirname = path.dirname(__filename);
+  // const __dirname = path.dirname(__filename);
 
   const foldersPath = path.join(__dirname, 'commands');
   const commandFolders = fs.readdirSync(foldersPath);
@@ -25,10 +25,10 @@ export default async function Bot() {
   for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
 
-    client = await loadCommands(commandsPath, client);
+    client.commands = await loadCommands(commandsPath, client);
   }
 
-  client.on(Events.InteractionCreate, async (interaction) => {
+  client.on(Events.InteractionCreate, async (interaction: any) => {
     if (!interaction.isChatInputCommand()) return;
 
     const commandClient = interaction.client as ClientWithCommands;
@@ -61,7 +61,7 @@ export default async function Bot() {
     console.log(interaction);
   });
 
-  client.once(Events.ClientReady, (readyClient) => {
+  client.once(Events.ClientReady, (readyClient: { user: { tag: string } }) => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
   });
 
@@ -88,5 +88,7 @@ async function loadCommands(commandsPath: string, client: ClientWithCommands) {
     }
   }
 
-  return client;
+  return client.commands;
 }
+
+Bot();
