@@ -1,10 +1,13 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, CommandInteraction } from 'discord.js';
 
-export default {
-  data: new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription('Replies with Pong!'),
-  async execute(interaction: any) {
-    await interaction.reply('Pong!');
-  },
-};
+const data = new SlashCommandBuilder()
+  .setName('ping')
+  .setDescription('Replies with Pong!');
+
+async function execute(interaction: CommandInteraction) {
+  await interaction.reply(
+    `This server is ${interaction.guild?.name} and has ${interaction.guild?.memberCount} members.`
+  );
+}
+
+export { data, execute };
