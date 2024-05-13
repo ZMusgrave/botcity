@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default async function Bot() {
+async function Bot() {
   let client = new Client({
     intents: [GatewayIntentBits.Guilds],
   }) as ClientWithCommands;
@@ -23,6 +23,7 @@ export default async function Bot() {
     client.commands = await loadCommands(commandsPath, client);
   }
 
+  // TODO: Find correct discord type for interaction
   client.on(Events.InteractionCreate, async (interaction: any) => {
     if (!interaction.isChatInputCommand()) return;
 
