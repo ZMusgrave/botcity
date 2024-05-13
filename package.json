@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": ".",
-  "type": "module",
   "scripts": {
     "dev": "docker compose --env-file .env up --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "deploy": "node dist/src/deploy.js"
   },
   "keywords": [],
   "author": "",
