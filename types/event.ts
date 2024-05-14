@@ -1,4 +1,4 @@
-import { Events, Client } from 'discord.js';
+import { Events, Client, Interaction } from 'discord.js';
 
 interface ReadyEvent {
   name: typeof Events.ClientReady;
@@ -6,4 +6,10 @@ interface ReadyEvent {
   execute: (client: Client) => void;
 }
 
-export { ReadyEvent };
+interface InteractionCreate {
+  name: typeof Events.InteractionCreate;
+  once: boolean;
+  execute: (interaction: Interaction) => void;
+}
+
+export { ReadyEvent, InteractionCreate };
