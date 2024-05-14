@@ -10,4 +10,6 @@ async function execute(interaction: CommandInteraction) {
   );
 }
 
-export { data, execute };
+const cooldown = 5;
+
+export { data, execute, cooldown };
