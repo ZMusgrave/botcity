@@ -2,10 +2,12 @@ import fs from 'node:fs';
 import { ClientWithCommands } from '../types/client';
 import path from 'node:path';
 
-import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const token = process.env.TOKEN;
 
 async function Bot() {
   let client = new Client({
@@ -23,45 +25,20 @@ async function Bot() {
     client.commands = await loadCommands(commandsPath, client);
   }
 
-  // TODO: Find correct discord type for interaction
-  client.on(Events.InteractionCreate, async (interaction: any) => {
-    if (!interaction.isChatInputCommand()) return;
+  const eventsPath = path.join(__dirname, 'events');
+  const eventFiles = fs
+    .readdirSync(eventsPath)
+    .filter((file) => file.endsWith('.js'));
 
-    const commandClient = interaction.client as ClientWithCommands;
-
-    const command = commandClient.commands.get(interaction.commandName);
-
-    if (!command) {
-      console.error(
-        `No command matching ${interaction.commandName} was found.`
-      );
-      return;
+  for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(...args));
     }
-
-    try {
-      await command.execute(interaction);
-    } catch (error) {
-      console.error(error);
-      if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({
-          content: 'There was an error while executing this command!',
-          ephemeral: true,
-        });
-      } else {
-        await interaction.reply({
-          content: 'There was an error while executing this command!',
-          ephemeral: true,
-        });
-      }
-    }
-    console.log(interaction);
-  });
-
-  client.once(Events.ClientReady, (readyClient: { user: { tag: string } }) => {
-    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-  });
-
-  const token = process.env.TOKEN;
+  }
 
   client.login(token);
 }
