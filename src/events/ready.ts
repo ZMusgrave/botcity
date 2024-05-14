@@ -1,5 +1,5 @@
 import { Events, Client } from 'discord.js';
-import { ReadyEvent } from '../../types/event';
+import { ReadyEvent } from 'types/event';
 
 async function execute(client: Client) {
   console.log(`Ready! Logged in as ${client?.user?.tag}`);
@@ -11,4 +11,4 @@ const event: ReadyEvent = {
   execute,
 };
 
-export default event;
+export { event };
