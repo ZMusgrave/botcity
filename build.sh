@@ -1,5 +1,14 @@
 #!/bin/zsh
 
+npm install
+
+if [ $? -eq 0 ] ; then
+    echo "Packages Installed Successfully"
+else
+    echo "Error installing Packages"
+    exit 1
+fi
+
 tsc
 
 if [ $? -eq 0 ] ; then
