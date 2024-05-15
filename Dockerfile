@@ -28,7 +28,7 @@ COPY . .
 ENV PYTHON=/usr/bin/python3
 ENV npm_config_python=/usr/bin/python3
 
-RUN npm run build
+RUN npm run build:tsc
 
 FROM node:${NODE_VERSION}-alpine
 

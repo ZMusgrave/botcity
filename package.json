@@ -8,7 +8,8 @@
     "clean": "docker compose down --rmi all -v && rm -rf .dist .node_modules",
     "deploy": "node dist/src/deploy.js",
     "start": "node dist/src/bot.js",
-    "build": "tsc",
+    "build:tsc": "tsc",
+    "build": "./build.sh",
     "watch": "tsc --watch"
   },
   "keywords": [],
