@@ -4,11 +4,12 @@
   "description": "",
   "main": ".",
   "scripts": {
-    "dev": "docker compose --env-file .env up --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "dev": "docker compose up --watch",
+    "clean": "docker compose down --rmi all -v && rm -rf .dist .node_modules",
     "deploy": "node dist/src/deploy.js",
-    "clean": "docker compose down --rmi all -v && rm -rf .dist .node_modules"
+    "start": "node dist/src/bot.js",
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "keywords": [],
   "author": "",
