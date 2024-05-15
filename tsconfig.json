@@ -13,5 +13,5 @@
     "noUnusedParameters": true,
     "baseUrl": "."
   },
-  "include": ["src", "src/commands"]
+  "include": ["src"]
 }
