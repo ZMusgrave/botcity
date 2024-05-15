@@ -14,3 +14,17 @@ async function execute(interaction: CommandInteraction) {
 const cooldown = 5;
 
 export { data, execute, cooldown };
+
+/*
+Sub command example
+
+.addSubcommand(subcommand =>
+		subcommand
+			.setName('user')
+			.setDescription('Info about a user')
+			.addUserOption(option => option.setName('target').setDescription('The user')))
+	.addSubcommand(subcommand =>
+		subcommand
+			.setName('server')
+			.setDescription('Info about the server'));
+*/
