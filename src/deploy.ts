@@ -1,4 +1,4 @@
-import { REST, Routes } from 'discord.js';
+import { REST, Routes, SlashCommandBuilder } from 'discord.js';
 import dotenv from 'dotenv';
 import fs from 'node:fs';
 import { CommandData } from 'types/command';
@@ -12,7 +12,7 @@ const guildId = process.env.GUILD_ID as string;
 const token = process.env.TOKEN as string;
 
 async function deploy() {
-  const commands: any = [];
+  const commands: SlashCommandBuilder[] = [];
 
   // Grab all the command folders from the commands directory you created earlier
   const foldersPath = path.join(__dirname, 'commands');
@@ -28,7 +28,7 @@ async function deploy() {
     for (const file of commandFiles) {
       const filePath = path.join(commandsPath, file);
       const command: CommandData = await import(filePath);
-      console.log('this is the command:', command, '\n\n\n');
+
       if ('data' in command && 'execute' in command) {
         commands.push(command.data);
       } else {
