@@ -1,23 +1,26 @@
 services:
   bot:
     build: .
+    volumes:
+      - ./dist:/usr/src/app/dist
     develop:
       watch:
         - action: sync
-          path: .
-          target: /src
+          path: ./dist
+          target: /src/dist
           ignore:
             - node_modules/
         - action: rebuild
           path: package.json
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       TOKEN: ${TOKEN}
       PREFIX: ${PREFIX}
     ports:
       - 6000:6000
     depends_on:
       - tsc
+    command: nodemon --watch dist dist/src/bot.js
 
   tsc:
     build: .
@@ -25,3 +28,4 @@ services:
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
+      - ./dist:/usr/src/app/dist

@@ -39,7 +39,7 @@ RUN apk add --no-cache python3 make g++
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev && npm install -g typescript
+    npm ci --omit=dev && npm install -g typescript nodemon
 
 COPY --from=build /usr/src/app/dist ./dist
 
@@ -53,7 +53,7 @@ COPY --chown=app:app . /app
 EXPOSE 6000
 
 # Use production node environment by default.
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 # Run the application.
-CMD node dist/src/bot.js
+# CMD nodemon --watch dist/src/bot.js
