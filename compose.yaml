@@ -1,6 +1,7 @@
 services:
   bot:
     build: .
+    # command: npm run start
     develop:
       watch:
         - action: sync
@@ -16,3 +17,12 @@ services:
       PREFIX: ${PREFIX}
     ports:
       - 6000:6000
+    depends_on:
+      - tsc
+
+  tsc:
+    build: .
+    command: npm run watch
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
