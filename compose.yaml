@@ -1,7 +1,6 @@
 services:
   bot:
     build: .
-    # command: npm run start
     develop:
       watch:
         - action: sync
