@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { ClientWithCommands } from '../types/client';
 import path from 'node:path';
-
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 
@@ -11,7 +10,11 @@ const token = process.env.TOKEN;
 
 async function Bot() {
   let client = new Client({
-    intents: [GatewayIntentBits.Guilds],
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildVoiceStates,
+      GatewayIntentBits.GuildMessages,
+    ],
   }) as ClientWithCommands;
 
   client.commands = new Collection();
